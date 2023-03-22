@@ -1,0 +1,104 @@
+
+
+
+
+
+
+
+
+
+version: '2'
+
+services:
+    haproxy:
+        image: haproxy:2.5
+        ports:
+            # stats
+            - "8036:8036"
+
+            # splash
+            - "8050:8050"
+        links:
+            - splash0
+            - splash1
+            - splash2
+            - splash3
+            - splash4
+        volumes:
+            - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+
+    splash0:
+        image: whalebothelmsman/supervised-splash:latest
+        command: --max-timeout 300 --slots 5 --maxrss 4000 --verbosity 1
+        expose:
+            - 8050
+        mem_limit: 4000m
+        memswap_limit: 8000m
+        restart: always
+        links:
+            - tor
+        volumes:
+            - ./proxy-profiles:/etc/splash/proxy-profiles:ro
+
+    splash1:
+        image: whalebothelmsman/supervised-splash:latest
+        command: --max-timeout 300 --slots 5 --maxrss 4000 --verbosity 1
+        expose:
+            - 8050
+        mem_limit: 4000m
+        memswap_limit: 8000m
+        restart: always
+        links:
+            - tor
+        volumes:
+            - ./proxy-profiles:/etc/splash/proxy-profiles:ro
+
+    splash2:
+        image: whalebothelmsman/supervised-splash:latest
+        command: --max-timeout 300 --slots 5 --maxrss 4000 --verbosity 1
+        expose:
+            - 8050
+        mem_limit: 4000m
+        memswap_limit: 8000m
+        restart: always
+        links:
+            - tor
+        volumes:
+            - ./proxy-profiles:/etc/splash/proxy-profiles:ro
+
+    splash3:
+        image: whalebothelmsman/supervised-splash:latest
+        command: --max-timeout 300 --slots 5 --maxrss 4000 --verbosity 1
+        expose:
+            - 8050
+        mem_limit: 4000m
+        memswap_limit: 8000m
+        restart: always
+        links:
+            - tor
+        volumes:
+            - ./proxy-profiles:/etc/splash/proxy-profiles:ro
+
+    splash4:
+        image: whalebothelmsman/supervised-splash:latest
+        command: --max-timeout 300 --slots 5 --maxrss 4000 --verbosity 1
+        expose:
+            - 8050
+        mem_limit: 4000m
+        memswap_limit: 8000m
+        restart: always
+        links:
+            - tor
+        volumes:
+            - ./proxy-profiles:/etc/splash/proxy-profiles:ro
+
+
+    
+    tor:
+        image: jess/tor-proxy
+        expose:
+            - 9050
+        logging:
+            driver: "none"
+        restart: always
+    
