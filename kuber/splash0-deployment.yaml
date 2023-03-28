@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  name: splash
+spec:
+  replicas: 5
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      - labels: splash-pod
+    spec:
+      containers:
+        - args:
+            - --max-timeout
+            - "300"
+            - --slots
+            - "5"
+            - --maxrss
+            - "4000"
+            - --verbosity
+            - "1"
+          image: whalebothelmsman/supervised-splash:latest
+          name: splash
+          ports:
+            - containerPort: 8050
+          resources:
+            limits:
+              memory: "1Gi"
+          volumeMounts:
+            - mountPath: /etc/splash/proxy-profiles
+              name: splash0-claim0
+              readOnly: true
+      restartPolicy: Always
+      volumes:
+        - name: splash0-claim0
+          persistentVolumeClaim:
+            claimName: splash0-claim0
+            readOnly: true
+status: {}
