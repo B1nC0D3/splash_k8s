@@ -14,4 +14,4 @@ spec:
               service:
                 name: splash-service
                 port:
-                  number: 8080
+                  number: 8050

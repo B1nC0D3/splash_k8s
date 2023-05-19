@@ -1,15 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  creationTimestamp: null
-  name: splash
+  name: splash-deployment
+  labels:
+    app: splash
 spec:
   replicas: 5
+  selector:
+    matchLabels:
+      app: splash
   strategy:
     type: Recreate
   template:
     metadata:
-      - labels: splash-pod
+      name: splash-pod
+      labels:
+        app: splash
     spec:
       containers:
         - args:
@@ -30,12 +36,11 @@ spec:
               memory: "1Gi"
           volumeMounts:
             - mountPath: /etc/splash/proxy-profiles
-              name: splash0-claim0
+              name: splash-volume
               readOnly: true
       restartPolicy: Always
       volumes:
-        - name: splash0-claim0
+        - name: splash-volume
           persistentVolumeClaim:
-            claimName: splash0-claim0
+            claimName: splash-volume
             readOnly: true
-status: {}
